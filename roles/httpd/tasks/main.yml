@@ -1,0 +1,24 @@
+---
+- name: Install latest version of Apache
+  yum: 
+    name: httpd 
+    update_cache: yes
+    state: latest
+  notify:
+    - Check httpd status
+
+- name: Create index.html using Jinja2
+  template:
+    src: index.j2
+    dest: /var/www/html/index.html
+
+- name: Enable http port
+  firewalld:
+    service: http
+    permanent: true
+    state: enabled
+
+- name: Respect message
+  include: respect.yml
+  when: ansible_distribution == 'CentOS'
+...

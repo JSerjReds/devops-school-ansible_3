@@ -1,0 +1,6 @@
+---
+- name: Check httpd status
+  service:
+    name: httpd
+    state: started
+...
