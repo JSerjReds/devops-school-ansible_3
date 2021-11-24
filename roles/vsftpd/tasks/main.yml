@@ -1,0 +1,43 @@
+---
+- name: Install latest version of FTP
+  yum: 
+    name: vsftpd
+    update_cache: yes
+    state: latest
+  notify:
+    - Check ftp status
+
+- name: Create config using Jinja2
+  template:
+    src: conf.j2
+    dest: "{{ config_path }}"
+
+- name: Enable ftp port
+  firewalld:
+    service: ftp
+    permanent: true
+    state: enabled
+
+- name: Restart ftp
+  service:
+    name: vsftpd
+    state: restarted
+
+- name: Create ftp/pub
+  ansible.builtin.file:
+    path: "{{ anon_root }}"
+    state: directory
+    owner: ftp
+    mode: '744'
+
+- name: Create ftp/pub/upload
+  ansible.builtin.file:
+    path: "{{ anon_root }}/upload"
+    state: directory
+    owner: ftp
+    mode: '766'
+
+- name: Change ftp policy SELinux
+  command: setsebool -P allow_ftpd_anon_write on
+    
+...

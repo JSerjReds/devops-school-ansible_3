@@ -1,0 +1,6 @@
+---
+- name: Check ftp status
+  service:
+    name: vsftpd
+    state: started
+...
