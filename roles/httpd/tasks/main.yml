@@ -10,7 +10,7 @@
 - name: Create index.html using Jinja2
   template:
     src: index.j2
-    dest: /var/www/html/index.html
+    dest: "{{ index_path }}"
 
 - name: Enable http port
   firewalld:
