@@ -1,5 +1,5 @@
 - hosts: webservers
   become: true
   roles: 
-    #- role: httpd
+    - role: httpd
     - role: vsftpd
